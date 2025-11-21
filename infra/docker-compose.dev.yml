@@ -1,33 +1,45 @@
 services:
-  db:
-    image: mysql:8.0
+  mysql-auth:
+    image: mysql:8
+    container_name: leadforge-mysql-auth
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: leadforge
-      MYSQL_USER: leadforge
-      MYSQL_PASSWORD: leadforge
-    ports: [ "3306:3306" ]
-    healthcheck: { test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"], interval: 10s, timeout: 5s, retries: 10 }
+      MYSQL_DATABASE: leadforge_auth
+    ports:
+      - "3307:3306"
+    volumes:
+      - leadforge-mysql-auth-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
-  redis:
-    image: redis:7
-    ports: [ "6379:6379" ]
+#  redis:
+#    image: redis:7
+#    ports:
+#      - "6379:6379"
 
-  api:
+  auth-service:
     build:
-      context: ../backend
+      context: ../backend/auth-service
       dockerfile: Dockerfile
+    container_name: leadforge-auth-service
+    depends_on:
+      mysql-auth:
+        condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/leadforge
-      SPRING_DATASOURCE_USERNAME: leadforge
-      SPRING_DATASOURCE_PASSWORD: leadforge
-    depends_on: [ db, redis ]
-    ports: [ "8080:8080" ]
-    develop:
-      watch:
-        - path: ../backend
-          action: sync
-          target: /app
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-auth:3306/leadforge_auth?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_PROFILES_ACTIVE: docker
+      # Optional overrides for JWT if you want:
+      # JWT_SECRET: super-secret-key-for-jwt-leadforge-32chars-minimum
+      # JWT_EXPIRATION: 86400000
+    ports:
+      - "8081:8081"
+    restart: unless-stopped
 
   web:
     build:
@@ -36,4 +48,7 @@ services:
     environment:
       NEXT_PUBLIC_API_BASE: http://localhost:8080
     ports: [ "3000:3000" ]
-    depends_on: [ api ]
+
+volumes:
+  leadforge-mysql-auth-data:
+    driver: local
