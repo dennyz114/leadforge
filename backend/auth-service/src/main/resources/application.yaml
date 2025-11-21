@@ -1,0 +1,23 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: auth-service
+
+  datasource:
+      url: jdbc:mysql://localhost:3307/leadforge_auth?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      username: root
+      password: root
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # en prod => validate / none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+jwt:
+  secret: "super-secret-key-for-jwt-leadflow-32chars-minimo"
+  expiration: 86400000 # 1 día en ms
