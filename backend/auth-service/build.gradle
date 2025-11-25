@@ -6,6 +6,10 @@ plugins {
 
 version = '0.0.1-SNAPSHOT'
 
+bootJar {
+  mainClass = 'com.leadforge.auth.AuthServiceApplication'
+}
+
 dependencies {
   implementation project(':common')
 

@@ -1,4 +1,3 @@
 rootProject.name = 'leadforge-api'
 
-include 'common'
 include 'auth-service'
