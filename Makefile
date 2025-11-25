@@ -2,7 +2,6 @@
 COMPOSE := docker compose -f infra/docker-compose.dev.yml
 API_DIR := backend
 WEB_DIR := frontend
-INFRA_DIR := infra
 
 # ====== Ayuda ======
 .PHONY: help

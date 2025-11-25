@@ -6,9 +6,9 @@ spring:
     name: auth-service
 
   datasource:
-      url: jdbc:mysql://localhost:3307/leadforge_auth?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      username: root
-      password: root
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
 
   jpa:
     hibernate:
@@ -19,5 +19,5 @@ spring:
         format_sql: true
 
 jwt:
-  secret: "super-secret-key-for-jwt-leadflow-32chars-minimo"
-  expiration: 86400000 # 1 día en ms
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION}
