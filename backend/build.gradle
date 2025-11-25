@@ -16,6 +16,8 @@ subprojects {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
 
+    repositories { mavenCentral() }
+
     dependencies {
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
