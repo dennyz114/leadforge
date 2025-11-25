@@ -1,28 +1,31 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.5.7'
-	id 'io.spring.dependency-management' version '1.1.7'
+  id 'java'
+  id 'io.spring.dependency-management' version '1.1.7'
 }
 
-repositories { mavenCentral() }
+repositories {
+  mavenCentral()
+}
 
 subprojects {
-    apply plugin: 'java'
-    apply plugin: 'io.spring.dependency-management'
+  apply plugin: 'java'
+  apply plugin: 'io.spring.dependency-management'
 
-    group = 'com.leadforge'
-    version = '0.1.0'
-    description = 'Project to manage leads'
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+  group = 'com.leadforge'
+  version = '0.1.0'
+  description = 'Project to manage leads'
+  sourceCompatibility = JavaVersion.VERSION_21
+  targetCompatibility = JavaVersion.VERSION_21
 
-    repositories { mavenCentral() }
+  repositories {
+    mavenCentral()
+  }
 
-    dependencies {
-        testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    }
+  dependencies {
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  }
 
-    tasks.withType(Test).configureEach {
-        useJUnitPlatform()
-    }
+  tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+  }
 }

@@ -6,12 +6,12 @@ plugins {
 
 version = '0.0.1-SNAPSHOT'
 
-bootJar {
+springBoot {
   mainClass = 'com.leadforge.auth.AuthServiceApplication'
 }
 
 dependencies {
-//  implementation project(':common')
+  implementation project(':common')
 
   implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation 'org.springframework.boot:spring-boot-starter-security'
