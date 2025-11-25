@@ -7,6 +7,10 @@ repositories {
   mavenCentral()
 }
 
+ext {
+  springCloudVersion = '2025.0.0'
+}
+
 subprojects {
   apply plugin: 'java'
   apply plugin: 'io.spring.dependency-management'
@@ -27,5 +31,11 @@ subprojects {
 
   tasks.withType(Test).configureEach {
     useJUnitPlatform()
+  }
+
+  dependencyManagement {
+    imports {
+      mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
   }
 }
